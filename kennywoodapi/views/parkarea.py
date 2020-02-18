@@ -6,19 +6,21 @@ from rest_framework import serializers
 from rest_framework import status
 from kennywoodapi.models import ParkArea
 
+
 class ParkAreaSerializer(serializers.HyperlinkedModelSerializer):
-     """JSON serializer for park areas
+    """JSON serializer for park areas
 
     Arguments:
         serializers.HyperlinkedModelSerializer
     """
-class Meta:
-    model = ParkArea
-    url = serializers.HyperlinkedIdentityField(
-        view_name='parkarea',
-        lookup_field='id'
-    )
-    fields = ('id', 'url', 'name', 'theme')
+    class Meta:
+        model = ParkArea
+        url = serializers.HyperlinkedIdentityField(
+            view_name='parkarea',
+            lookup_field='id'
+        )
+        fields = ('id', 'url', 'name', 'theme')
+
 
 class ParkAreas(ViewSet):
     """Park Areas for Kennywood Amusement Park"""
@@ -30,7 +32,7 @@ class ParkAreas(ViewSet):
         """
         try: 
             area = ParkArea.objects.get(pk=pk)
-            serializer = ParkAreaSerializer(area, context = {'request': request})
+            serializer = ParkAreaSerializer(area, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
